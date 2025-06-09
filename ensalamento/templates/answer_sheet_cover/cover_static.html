@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capa Cartão Resposta</title>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 1cm;
+            
+        }
+
+        html {
+            position: relative;
+            justify-self: center;
+            padding: 0mm;
+            width: 19.0cm;
+            height: 27.7cm;
+        }
+
+        html,
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 8pt;
+            text-align: center;
+            margin: 0;
+        }
+
+        body {
+            border: 4px solid #000;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+
+        .file-type {
+            background-color: #ccc;
+            padding: 1mm 0;
+        }
+
+        header {
+            margin-bottom: 1cm;
+        }
+
+        .notice-info {
+            padding: 0 1cm;
+            font-size: 5.5mm;
+
+            &>label {
+                display: block;
+                font-weight: bold;
+            }
+        }
+
+        .room-itentification {
+            font-size: 1.2cm;
+            padding: 0 1cm;
+            margin-bottom: 0;
+        }
+
+        .envelop-number {
+            font-size: 4mm;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 1cm;
+        }
+
+        table,
+        tr,
+        th,
+        td {
+            border-top: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .footer {
+            position: absolute;
+            display: flex;
+            bottom: 0;
+            width: 90%;
+            justify-content: center;
+
+            font-size: 5.5mm;
+            text-align: center;
+
+            gap: 10mm;
+
+            margin-bottom: 1cm;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h4 class="header-entity">
+            INSTITUTO FEDERAL DE EDUCAÇÃO, CIÊNCIA E TECNOLOGIA DO RIO DE JANEIRO - IFRJ
+        </h4>
+        <h5 class="file-type">
+            IDENTIFICAÇÃO DE SALA
+        </h5>
+    </header>
+    <div class="notice-info">
+        <label>01 - MATUTINO</label>
+        <span>Instituto Federal de Educação, Ciência e Tecnologia do Rio de Janeiro IFRJ - CAMPUS MARACANÃ</span>
+    </div>
+
+    <h1 class="room-itentification">
+        BLOCO ÚNICO - TÉRREO - Sala de Artes
+    </h1>
+    <span class="envelop-number">Envelope 001</span>
+    <table>
+        <tr>
+            <th>Código</th>
+            <th>Vaga</th>
+            <th>Qtde.</th>
+        </tr>
+        <tr>
+            <td>317</td>
+            <td>RJ-01 - Alimentos - Campus Rio de Janeiro</td>
+            <td>10</td>
+        </tr>
+    </table>
+    <div class="footer">
+        <label>PRESENTES: __________</label>
+        <label>AUSENTES: __________</label>
+    </div>
+</body>

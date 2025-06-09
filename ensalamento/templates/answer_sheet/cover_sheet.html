@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capa Cartão Resposta</title>
+    <style>
+      @page {
+        size: A4 portrait;
+        margin: 0.8cm;
+      }
+
+      html,
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 8pt;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .file-type {
+        background-color: #ccc;
+        padding: 1mm 0;
+        margin: 0;
+      }
+
+      header {
+        margin-bottom: 0.5cm;
+      }
+
+      .notice-info {
+        padding: 0 1cm;
+        font-size: 5.5mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 0.5cm;
+      }
+
+      .notice-info h2 {
+        margin-bottom: 0;
+        display: block;
+      }
+
+      .room-itentification {
+        font-size: 1.2cm;
+        padding: 0 1cm;
+        margin-bottom: 0.5cm;
+      }
+
+      .envelop-number {
+        font-size: 4mm;
+        font-weight: bold;
+        margin-bottom: 0.5cm;
+      }
+
+      table {
+        width: 100%;
+        margin-top: 0.5cm;
+        border-collapse: collapse;
+      }
+
+      table,
+      tr,
+      th,
+      td {
+        border: 1px solid black;
+        padding: 2mm;
+      }
+
+      th {
+        background-color: #f0f0f0;
+      }
+
+      .footer {
+        position: absolute;
+        display: flex;
+        bottom: 1cm;
+        width: 90%;
+        justify-content: space-around;
+        font-size: 5.5mm;
+        text-align: center;
+      }
+
+      .city_hall_logo {
+        width: 2cm;
+        height: 2cm;
+        background-color: #e99e9e;
+      }
+
+      .institute_logo {
+        width: 6cm;
+        height: 2cm;
+        background-color: #e99e9e;
+      }
+
+      .notice_sheet_info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .notice_info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0.5cm;
+        text-align: left;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="notice_sheet_info">
+      <img class="city_hall_logo" src="{{ prefeitura_logo }}" />
+      <div class="notice_info">
+        <h4 class="header-entity">{{entity}}</h4>
+        <h5 class="file-type">IDENTIFICAÇÃO DE SALA</h5>
+      </div>
+      <img class="institute_logo" src="{{ instituto_logo }}" />
+    </header>
+    <div class="notice-info">
+      <h2>{{shift}}</h2>
+      <span>{{ room__school__name }}</span>
+    </div>
+
+    <h1 class="room-itentification">{{room__name}}</h1>
+    <span>Envelope - {{ room__id }}</span>
+    <table>
+      <tr>
+        <th>Código</th>
+        <th>Vaga</th>
+        <th>Qtde.</th>
+      </tr>
+      {% for item in positions %}
+      <tr>
+        <td>{{ positions[item].id }}</td>
+        <td>{{ positions[item].name }}</td>
+        <td>{{ positions[item].count }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <div class="footer">
+      <label>PRESENTES: __________</label>
+      <label>AUSENTES: __________</label>
+    </div>
+  </body>
+</html>

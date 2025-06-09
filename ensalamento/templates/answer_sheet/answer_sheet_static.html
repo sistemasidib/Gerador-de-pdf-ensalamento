@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cartão Resposta</title>
+    <style>
+      @page {
+        size: A4 portrait;
+        margin: 0.6cm;
+      }
+
+      html,
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 8pt;
+      }
+
+      /* NOTICE AND SHEET INFO */
+
+      .notice_sheet_info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .city_hall {
+        display: flex;
+        align-items: center;
+        width: 12cm;
+      }
+
+      .city_hall_logo {
+        width: 2cm;
+        height: 2cm;
+        background-color: #e99e9e;
+      }
+
+      .notice_info {
+        display: flex;
+        flex-direction: column;
+        margin-left: 0.5cm;
+        text-align: left;
+      }
+
+      .notice_info p:not(:last-child) {
+        margin-bottom: -0.1cm;
+      }
+
+      .institute_logo {
+        width: 6cm;
+        height: 2cm;
+        background-color: #e99e9e;
+      }
+
+      /* QR CODE AND APPLICANT INFO */
+
+      .qr_code_applicant_info {
+        display: flex;
+      }
+
+      .qr_code {
+        border: 1px solid #000000;
+        width: 2cm;
+        /* height: calc(2.2cm - 2px); */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .applicant_info {
+        flex-grow: 1;
+      }
+
+      .school_shift_room_order {
+        display: flex;
+      }
+
+      .school {
+        display: flex;
+        align-items: center;
+        padding-left: 0.3cm;
+        width: 10cm;
+        height: 0.7cm;
+        border-top: 1px solid #000000;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      .shift {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2cm;
+        height: 0.7cm;
+        border-top: 1px solid #000000;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      .room {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2cm;
+        height: 0.7cm;
+        border-top: 1px solid #000000;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      .order {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        height: 0.7cm;
+        border-top: 1px solid #000000;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      .position {
+        display: flex;
+      }
+
+      .position_title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 13cm;
+        height: 0.7cm;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      .position_id {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        height: 0.7cm;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      .inscription_number_name_cpf {
+        display: flex;
+      }
+
+      .inscription_number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2cm;
+        height: 0.7cm;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      .candidate_name {
+        display: flex;
+        align-items: center;
+        padding-left: 0.3cm;
+        width: 10cm;
+        height: 0.7cm;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      .cpf {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        height: 0.7cm;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+      }
+
+      /* APPLICANT SIGNATURE AND FINGERPRINT */
+
+      .applicant_signature_fingerprint {
+        display: flex;
+        height: 4.2cm;
+        font-size: 6pt;
+      }
+
+      .applicant_signature {
+        width: 12cm;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        border-left: 1px solid #000000;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        text-align: center;
+        padding: 0cm 0.5cm 0.2cm 0.5cm;
+      }
+
+      .signature_line {
+        border-bottom: 1px solid #000000;
+        margin-bottom: 0.2cm;
+        height: 2.5cm;
+      }
+
+      .applicant_fingerprint {
+        flex-grow: 1;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        padding: 0.2cm;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .fingerprint_container {
+        height: 3cm;
+        border: 1px solid #000000;
+        border-radius: 15%;
+        margin-bottom: 0.2cm;
+        text-align: center;
+      }
+
+      .thumb {
+        font-size: 4pt;
+      }
+
+      /* PHRASE */
+
+      .phrase_container {
+        height: 1.5cm;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        border-left: 1px solid #000000;
+        text-align: center;
+        padding: 0.3cm;
+      }
+
+      /* ANSWER NOTES AND INSPECTOR AREA */
+
+      .answer_test_notes_and_inspector_area {
+        display: flex;
+      }
+
+      .test_type {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 2.5cm;
+        padding: 0.3cm;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        border-left: 1px solid #000000;
+        text-align: center;
+      }
+
+      .test-options {
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 0.2cm;
+      }
+
+      .option {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 4mm;
+        text-align: center;
+      }
+
+      .option span {
+        font-size: 3mm;
+      }
+
+      .answer_notes {
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        justify-content: space-evenly;
+        padding: 0.3cm;
+        width: 5.1cm;
+      }
+
+      .option_circle {
+        font-size: 4.75mm;
+        margin-top: 1mm;
+      }
+
+      .demonstration_circle {
+        position: relative;
+        width: 2mm;
+        height: 2mm;
+        border: 1px solid #000000;
+        border-radius: 50%;
+      }
+
+      #filled {
+        background-color: black;
+      }
+
+      .how_to {
+        display: flex;
+        align-items: center;
+      }
+
+      .how_to span {
+        margin-right: 0.3cm;
+      }
+
+      .how_to div {
+        background-color: #000000;
+      }
+
+      .how_not_to {
+        display: flex;
+        align-items: center;
+      }
+
+      .how_not_to span {
+        margin-right: 0.3cm;
+      }
+
+      .how_not_to div {
+        position: relative;
+      }
+
+      .how_not_to div:not(:last-child) {
+        margin-right: 0.15cm;
+      }
+
+      #x::before {
+        content: "\2718";
+        display: block;
+        font-size: 2.2mm;
+        text-align: center;
+        line-height: 2mm;
+      }
+
+      #irregular::before {
+        content: "\2022";
+        display: block;
+        font-size: 6mm;
+        /* text-align: top; /* invalido */
+        line-height: 2mm;
+        transform: rotate(-38deg);
+      }
+
+      #checkmark::before {
+        content: "\2713";
+        display: block;
+        font-size: 2.2mm;
+        text-align: center;
+        line-height: 2mm;
+      }
+
+      #ellipse::before {
+        content: "\2B2E";
+        display: block;
+        font-size: 4mm;
+        text-align: center;
+        line-height: 2mm;
+        transform: rotate(38deg);
+      }
+
+      #ok::before {
+        content: "\2022";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8.5mm;
+        line-height: 1;
+        height: 100%;
+        margin-top: 0.05mm;
+      }
+
+      .inspector_area {
+        border-right: 1px solid #000000;
+        border-bottom: 1px solid #000000;
+        flex-grow: 1;
+        font-size: 8pt;
+        text-align: center;
+        padding-bottom: 0.5cm;
+      }
+
+      #inspector_title {
+        margin: 0;
+        padding-top: 0.1cm;
+        padding-bottom: 0.3cm;
+      }
+
+      .inspector_options {
+        display: flex;
+      }
+
+      .inspector_first_column {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 0.4cm;
+        flex-grow: 0.5;
+      }
+
+      .inspector_second_column {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 0.4cm;
+        flex-grow: 0.5;
+      }
+
+      .inspector_option {
+        display: flex;
+        align-items: center;
+      }
+
+      .inspector_option span {
+        margin-left: 0.2cm;
+      }
+
+      /* RESPONSE SECTION */
+
+      .response_section_container {
+        position: relative;
+        margin-top: 1mm;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .sequencial {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin: 0 -3mm -4.5mm 0;
+      }
+
+      .question {
+        display: flex;
+        margin-bottom: 0.25mm;
+        margin-top: 0.25mm;
+      }
+
+      .circles {
+        display: flex;
+        margin: -0.25mm 0;
+      }
+
+      .circle {
+        font-size: 4.75mm;
+        letter-spacing: 1.5mm;
+      }
+
+      .question_number {
+        margin-right: 4mm;
+        font-size: 14px;
+      }
+
+      .items span {
+        font-size: 4mm;
+        letter-spacing: 2mm;
+        margin-left: 1cm;
+      }
+
+      .top-left-l {
+        position: absolute;
+        width: 5mm;
+        height: 5mm;
+        top: 0;
+        left: 0;
+        border-left: 3px solid black;
+        border-top: 3px solid black;
+        /* margin: -4mm 0 0 -4mm; */
+        z-index: 99;
+      }
+
+      .bottom-left-l {
+        position: absolute;
+        width: 5mm;
+        height: 5mm;
+        bottom: 0;
+        left: 0;
+        border-left: 3px solid black;
+        border-bottom: 3px solid black;
+        /* margin: 0 0 -4mm -4mm; */
+        /* margin-bottom: -2mm; */
+        z-index: 99;
+      }
+
+      .bottom-right-l {
+        position: absolute;
+        width: 5mm;
+        height: 5mm;
+        bottom: 0;
+        right: 0;
+        border-right: 3px solid black;
+        border-bottom: 3px solid black;
+        /* margin: 0 -4mm -4mm 0; */
+        /* margin-bottom: -2mm; */
+        z-index: 99;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <div class="top-left-l"></div>
+    <div class="bottom-left-l"></div>
+    <div class="bottom-right-l"></div> -->
+    <div class="notice_sheet_info">
+      <div class="city_hall">
+        <div class="city_hall_logo">
+          <img class="city_hall_logo" src="{{ prefeitura_logo }}" />
+        </div>
+        <div class="notice_info">
+          <p>{{ register.edital }}</p>
+          <p>Secretaria Municipal de Educação - 01/2025</p>
+          <p><b>FOLHA DE RESPOSTA</b></p>
+        </div>
+      </div>
+      <div class="institute_logo">
+        <img class="institute_logo" src="{{ instituto_logo }}" />
+      </div>
+    </div>
+    <div class="qr_code_applicant_info">
+      <div class="qr_code">{{ qr_code | safe }}</div>
+      <div class="applicant_info">
+        <div class="school_shift_room_order">
+          <div class="school">
+            {{ register.nome_escola }} - {{ register.bloco }} - {{
+            register.andar }}
+          </div>
+          <div class="shift">{{ register.turno }}</div>
+          <div class="room">{{ register.nome_sala }}</div>
+          <div class="order">CARTEIRA: {{ register.ordem }}</div>
+        </div>
+        <div class="position">
+          <div class="position_title">{{ register.nome_cargo }}</div>
+          <div class="position_id">{{ register.id_cargo }}</div>
+        </div>
+        <div class="inscription_number_name_cpf">
+          <div class="inscription_number">{{ register.id_inscricao }}</div>
+          <div class="candidate_name">{{ register.nome_candidato }}</div>
+          <div class="cpf">{{ register.candidato_cpf }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="applicant_signature_fingerprint">
+      <div class="applicant_signature">
+        <div class="signature_line"></div>
+        <span>ASSINATURA DO CANDIDATO (ASSINE SOBRE A LINHA)</span>
+      </div>
+      <div class="applicant_fingerprint">
+        <div class="fingerprint_container">
+          <span class="thumb">POLEGAR DIREITO</span>
+        </div>
+        <span>AUTENTICAÇÃO DIGITAL</span>
+      </div>
+    </div>
+    <div class="phrase_container">
+      <span
+        >Escreva, no espaço a seguir, com sua caligrafia usual, a frase indicada
+        na capa de seu caderno de prova:</span
+      >
+    </div>
+    <div class="answer_test_notes_and_inspector_area">
+      <div class="test_type">
+        <span id="test_title">TIPO DE PROVA</span>
+        <div class="test-options">
+          <div class="option">
+            <span>A</span>
+            <div class="option_circle">O</div>
+          </div>
+          <div class="option">
+            <span>B</span>
+            <div class="option_circle">O</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="answer_notes">
+        <div class="how_to">
+          <span>PREENCHA ASSIM:</span>
+          <div class="demonstration_circle" id="ok"></div>
+        </div>
+        <div class="how_not_to">
+          <span><strong>NÃO</strong> PREENCHA ASSIM:</span>
+          <div class="demonstration_circle" id="x"></div>
+          <div class="demonstration_circle" id="irregular"></div>
+          <div class="demonstration_circle" id="checkmark"></div>
+          <div class="demonstration_circle" id="ellipse"></div>
+        </div>
+      </div>
+
+      <div class="inspector_area">
+        <p id="inspector-title">PARA USO EXCLUSIVO DO FISCAL</p>
+        <div class="inspector_options">
+          <div class="inspector_first_column">
+            <div class="inspector_option">
+              <div class="option_circle">O</div>
+              <span>PRESENTE</span>
+            </div>
+            <div class="inspector_option">
+              <div class="option_circle">O</div>
+              <span>CARTÃO SUBSTITUÍDO</span>
+            </div>
+            <div class="inspector_option">
+              <div class="option_circle">O</div>
+              <span>CARTÃO ADICIONADO</span>
+            </div>
+            <div class="inspector_option">
+              <div class="option_circle">O</div>
+              <span>CANDIDATO ELIMINADO</span>
+            </div>
+          </div>
+          <div class="inspector_second_column">
+            <div class="inspector_option">
+              <div class="option_circle">O</div>
+              <span>AUSENTE</span>
+            </div>
+            <div class="inspector_option">
+              <div class="option_circle">O</div>
+              <span>CARTÃO NÃO PREENCHIDO</span>
+            </div>
+            <div class="inspector_option">
+              <div class="option_circle">O</div>
+              <span>CARTÃO SEM ASSINATURA</span>
+            </div>
+            <div class="inspector_option">
+              <div class="option_circle">O</div>
+              <span>CARTÃO SEM A FRASE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="response_section_container">
+      <!-- <span class="sequencial">Sequencial: {{register.ordem_geral}}</span> -->
+      <div class="first-column">
+        <div class="items">
+          <span><strong>ABCDE</strong></span>
+        </div>
+
+        <div class="question">
+          <div class="question_number"><strong>01.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>02.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>03.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>04.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>05.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>06.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>07.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>08.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>09.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>10.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>11.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>12.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>13.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>14.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>15.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>16.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>17.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>18.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>19.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>20.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>21.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>22.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>23.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>24.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>25.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+      </div>
+      <div class="second-column">
+        <div class="items">
+          <span><strong>ABCDE</strong></span>
+        </div>
+
+        <div class="question">
+          <div class="question_number"><strong>26.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>27.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>28.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>29.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>30.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>31.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>32.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>33.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>34.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>35.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>36.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>37.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>38.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>39.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>40.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>41.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>42.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>43.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>44.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>45.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>46.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>47.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>48.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>49.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>50.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+      </div>
+      <div class="third-column">
+        <div class="items">
+          <span><strong>ABCDE</strong></span>
+        </div>
+
+        <div class="question">
+          <div class="question_number"><strong>51.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>52.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>53.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>54.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>55.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>56.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>57.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>58.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>59.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>60.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>61.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>62.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>63.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>64.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>65.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>66.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>67.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>68.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>69.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>70.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>71.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>72.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>73.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>74.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>75.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+      </div>
+      <div class="fourth-column">
+        <div class="items">
+          <span><strong>ABCDE</strong></span>
+        </div>
+
+        <div class="question">
+          <div class="question_number"><strong>76.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>77.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>78.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>79.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>80.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>81.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>82.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>83.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>84.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>85.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>86.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>87.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>88.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>89.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>90.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>91.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>92.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>93.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>94.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>95.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>96.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>97.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>98.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number"><strong>99.</strong></div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+        <div class="question">
+          <div class="question_number" style="margin-left: -1ch">
+            <strong>100.</strong>
+          </div>
+          <div class="circles">
+            <div class="circle">OOOOO</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

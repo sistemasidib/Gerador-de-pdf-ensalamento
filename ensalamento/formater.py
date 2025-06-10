@@ -8,6 +8,7 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 import threading
 import base64
+from datetime import datetime
 
 # Coloque aqui o caminho exato do seu executável
 path_wkhtmltopdf = r'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'  # ajuste se necessário
@@ -18,9 +19,15 @@ CSV_PATH = 'PLANILHA_ENSALAMENTO_DEFINITIVO - candidatos.csv'
 TEMPLATE_DIR = 'templates/answer_sheet'
 TEMPLATE_FILE = 'answer_sheet_static.html'
 DOCS_DIR = 'docs'
+LOG_FILE = 'erros_geracao.txt'
 
 # Garante que a pasta docs existe
 os.makedirs(DOCS_DIR, exist_ok=True)
+
+def log_error(escola, error_message):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(LOG_FILE, 'a', encoding='utf-8') as f:
+        f.write(f"[{timestamp}] Escola: {escola} - Erro: {error_message}\n")
 
 def _generate_qr_code(register):
     qr_content = (
@@ -32,12 +39,32 @@ def _generate_qr_code(register):
     return segno.make(qr_content).svg_inline(dark='#000000', scale=1.5, border=0)
 
 def html_to_pdf(html_content, pdf_path):
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
-        page = browser.new_page()
-        page.set_content(html_content)
-        page.pdf(path=pdf_path, format="A4")
-        browser.close()
+    try:
+        with sync_playwright() as p:
+            # Configuração do browser com timeout aumentado para 2 minutos
+            browser = p.chromium.launch()
+            context = browser.new_context()
+            page = context.new_page()
+            
+            # Configura timeout para 2 minutos
+            page.set_default_timeout(120000)
+            
+            # Carrega o conteúdo e aguarda o carregamento completo
+            page.set_content(html_content, wait_until='networkidle', timeout=120000)
+            
+            # Aguarda um pouco mais para garantir que tudo foi renderizado
+            page.wait_for_load_state('networkidle', timeout=120000)
+            
+            # Gera o PDF com timeout aumentado
+            page.pdf(path=pdf_path, format="A4")
+            
+            # Fecha o contexto e o browser
+            context.close()
+            browser.close()
+            
+    except Exception as e:
+        print(f"Erro ao gerar PDF: {str(e)}")
+        raise e
 
 def sanitize_filename(name, max_length=60):
     # Remove caracteres inválidos para nomes de arquivos/pastas no Windows
@@ -62,10 +89,11 @@ def process_escola(escola_df, template, env, counter, total):
             print(f"PDF da escola {nome_escola} já existe, pulando...")
             return
         
-        print(f"Gereando PDF da escola {nome_escola}...")
+        print(f"Gerando PDF da escola {nome_escola}...")
         
-
         all_html_content = []
+        total_candidatos_escola = len(escola_df)
+        candidatos_processados = 0
         
         # Agrupa por sala
         for (nome_sala, turno), sala_df in escola_df.groupby(['NOME SALA', 'TURNO']):
@@ -125,15 +153,22 @@ def process_escola(escola_df, template, env, counter, total):
                         html_content = template.render(**context)
                         all_html_content.append(html_content)
                         
+                        candidatos_processados += 1
+                        porcentagem_escola = (candidatos_processados / total_candidatos_escola) * 100
+                        porcentagem_geral = (counter['count'] / total) * 100
+                        
                         with counter['lock']:
                             counter['count'] += 1
-                            # print(f"Processado candidato {register['nome_candidato']} ({counter['count']}/{total})")
+                            print(f"\rProgresso da escola {nome_escola}: {porcentagem_escola:.1f}% | Progresso geral: {porcentagem_geral:.1f}%", end='')
+                            
                     except Exception as e:
-                        print(f"Erro ao processar candidato {row.get('NOME', '')} da escola {nome_escola}, sala {nome_sala}: {str(e)}")
+                        print(f"\nErro ao processar candidato {row.get('NOME', '')} da escola {nome_escola}, sala {nome_sala}: {str(e)}")
                         continue
             except Exception as e:
-                print(f"Erro ao processar sala {nome_sala} da escola {nome_escola}: {str(e)}")
+                print(f"\nErro ao processar sala {nome_sala} da escola {nome_escola}: {str(e)}")
                 continue
+        
+        print(f"\nGerando PDF final para a escola {nome_escola}...")
         
         if not all_html_content:
             print(f"Nenhum conteúdo gerado para a escola {nome_escola}")
@@ -162,11 +197,17 @@ def process_escola(escola_df, template, env, counter, total):
         
         # Gera o PDF com todas as folhas de resposta
         html_to_pdf(combined_html, pdf_path)
-        print(f"Gerado PDF da escola: {pdf_path}")
+        print(f"PDF gerado com sucesso: {pdf_path}")
     except Exception as e:
-        print(f"Erro ao processar escola {nome_escola}: {str(e)}")
+        error_message = str(e)
+        print(f"\nErro ao processar escola {nome_escola}: {error_message}")
+        log_error(nome_escola, error_message)
 
 def main():
+    # Limpa o arquivo de log se ele existir
+    if os.path.exists(LOG_FILE):
+        os.remove(LOG_FILE)
+        
     env = Environment(
         loader=FileSystemLoader(TEMPLATE_DIR),
         autoescape=select_autoescape(['html', 'xml'])
@@ -200,7 +241,7 @@ def main():
                 try:
                     future.result()
                 except Exception as e:
-                    print(f"Erro ao processar escola na segunda tentativa: {str(e)}")
+                    print(f"Erro na segunda tentativa: {str(e)}")
 
 if __name__ == '__main__':
     main()
